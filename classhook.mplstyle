@@ -1,0 +1,24 @@
+# Classhook Style Sheet for Matplotlib
+
+# Clashook Style
+axes.spines.left: False
+axes.spines.right: False
+axes.spines.top: False
+axes.spines.bottom: False
+axes.facecolor: white
+axes.grid: False
+grid.color: dddddd
+grid.linestyle: -
+grid.alpha: 0.7
+axes.labelcolor: 333333
+xtick.bottom: False  # Remove xticks
+xtick.labelbottom: True # Remove xtick labels
+xtick.color: 333333
+ytick.color: 333333
+ytick.labelsize: 12
+legend.frameon: False
+font.weight: normal
+font.sans-serif: Segoe UI
+axes.titlepad: 20
+#axes.prop_cycle: cycler('color', ['#27A9E1', '#F05A28'])
+
