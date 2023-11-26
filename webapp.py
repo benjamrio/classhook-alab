@@ -93,8 +93,12 @@ def create_webapp():
 
         file_button.click(file_handler, inputs=[file_input], outputs=file_output)
 
-    demo.launch()
-
+    return demo
 
 if __name__ == "__main__":
-    create_webapp()
+    parser = argparse.ArgumentParser(description='Share option')
+    parser.add_argument('--remote', type=bool, help='share', default=False)
+    args = parser.parse_args()
+    app = create_webapp()
+    app.launch(share=args.remote)
+    
