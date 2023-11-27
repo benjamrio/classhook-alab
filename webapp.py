@@ -2,7 +2,9 @@ import sys
 import pandas as pd
 import gradio as gr
 import joblib
+from youtube_transcript_api import YouTubeTranscriptApi
 import argparse
+
 
 labels = ["History", "Language Arts", "Math", "Science", "Social Studies"]
 
@@ -24,6 +26,13 @@ def analyze_file(file_path):
     prediction = model.predict(df["text"])
     print(prediction)
     return prediction  # {label: prediction[i] for i, label in enumerate(labels)}
+
+
+def download_subtitles(text):
+    video_id = text.split("v=")[1]
+    subs = YouTubeTranscriptApi.get_transcripts([video_id], languages=["en"])
+    sentences = [sentence["text"] for sentence in subs[0][video_id]]
+    return " ".join(sentences)
 
 
 theme = gr.themes.Soft(
@@ -65,6 +74,14 @@ def create_webapp():
         with gr.Tab("One video to classify"):
             with gr.Row():
                 with gr.Column():
+                    video_input = gr.Textbox(
+                        label="Video URL",
+                        type="text",
+                        placeholder="Enter video URL here...",
+                        lines=1,
+                    )
+                    get_subs_button = gr.Button("Get Subtitles")
+                with gr.Column():
                     txt_input = gr.Textbox(
                         label="Video Subtitle",
                         type="text",
@@ -76,7 +93,9 @@ def create_webapp():
                     labels_confidence = gr.Label(
                         num_top_classes=5, label="Predicted labels", show_label=False
                     )
-
+        get_subs_button.click(
+            download_subtitles, inputs=[video_input], outputs=[txt_input]
+        )
         txt_button.click(analyze_text, inputs=[txt_input], outputs=labels_confidence)
 
         with gr.Tab("Files"):
@@ -96,10 +115,10 @@ def create_webapp():
 
     return demo
 
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Share option')
-    parser.add_argument('--remote', type=bool, help='share', default=False)
+    parser = argparse.ArgumentParser(description="Share option")
+    parser.add_argument("--remote", type=bool, help="share", default=False)
     args = parser.parse_args()
     app = create_webapp()
     app.launch(share=args.remote)
-    
