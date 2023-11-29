@@ -1,0 +1,8 @@
+slide 3: meta talk about classhook => only way to make this slide
+slide 3.5: video example of classhook (while we talk about interactive learning)
+slide 4: present more precisely the problem : subject classification, and how its going to be used in production
+slide 6-7: merge and highlight retained solution
+slide 
+
+
+next steps: other modalities => use different modules from our . Scale with our product. 
