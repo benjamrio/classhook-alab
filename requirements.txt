@@ -1,2 +1,3 @@
 gradio
 youtube_transcript_api
+pandas
