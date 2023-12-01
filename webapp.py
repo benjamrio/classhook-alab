@@ -130,7 +130,7 @@ def create_webapp():
             with gr.Row():
                 with gr.Column():
                     video_input = gr.Textbox(
-                        label="Video URL",
+                        label="Youtube URL",
                         type="text",
                         placeholder="Enter video URL here...",
                         lines=1,
@@ -138,7 +138,7 @@ def create_webapp():
                     get_subs_button = gr.Button("Get Subtitles")
                 with gr.Column():
                     txt_input = gr.Textbox(
-                        label="Video Subtitle",
+                        label="Subtitle",
                         type="text",
                         placeholder="Enter video subtitle here...",
                         lines=1,
@@ -156,7 +156,7 @@ def create_webapp():
         with gr.Tab("Files"):
             with gr.Row():
                 with gr.Column(scale=1):
-                    file_input = gr.File(label="URL List")
+                    file_input = gr.File(label="Youtube URLs file")
                     file_button = gr.Button("Get Classification")
 
                 with gr.Column(scale=4):
