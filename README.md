@@ -10,7 +10,7 @@ The models are pushed to huggingface hub, in a private repository.
 
 ## Preprocessing
 
-The function to preprocess the data (merge, clean, select N subjects) are in `create_dataset.py`` and can be used as a standalone script:
+The function to preprocess the data (merge, clean, select N subjects) is in `create_dataset.py`` and can be used as a standalone script:
 
 ```bash
 python create_dataset.py --input_folder <path_to_input_folder> --output_folder <path_to_output_folder> --nb_subjects <nb_subjects>
@@ -18,19 +18,21 @@ python create_dataset.py --input_folder <path_to_input_folder> --output_folder <
 
 ## Training
 
-Training is achieved on notebook `fine_tuning.ipynb`. It can easily be executed on Colab using a T4 GPU. We recommend running training for between 5 and 7 epochs, and this takes less than an hour.
+Training is achieved on notebook `finetune.ipynb`. It can easily be executed on Colab using a T4 GPU. We recommend running training for between 5 and 7 epochs, and this takes less than an hour.
 
 ## Inference
 
 Inference is easy to do. Two options:
 
-Either launch `inference.ipynb` on Colab. The server will be run on Colab's virtual machine. You can change the `remote` parameter if you want the server to be available online.
+1. Launch `inference.ipynb` on Colab. The server will be run on Colab's virtual machine. You can change the `remote` parameter if you want the server to be available online.
 
-You can also launch the server from your computer. Execute these commands at the root of this folder.
+OR
+
+2. launch the server from your computer. Execute these commands at the root of this folder.
 
 ```bash
 pip install -r requirements
-python.py webapp.py --remote <True/False>
+python webapp.py --remote <True/False>
 ```
 
 The server runs on your  `http://127.0.0.1:7860/` if `remote` is `False` or at a distant link if `remote` is `True`.
