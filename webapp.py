@@ -80,15 +80,7 @@ theme = gr.themes.Soft(
 ).set(body_background_fill="*code_background_fill", embed_radius="*radius_sm")
 
 
-def analyze_text_tfidf(subtitle):
-    model = joblib.load("../models/tf_idf_classifier.joblib")
-    print(model)
-    prediction = model.predict([subtitle])[0]
-    print(prediction)
-    return {label: prediction[i] for i, label in enumerate(labels)}
-
-
-def analyze_test_hf(subtitle):
+def infer_subtitle(subtitle):
     prediction = pipeline(subtitle, **tokenizer_kwargs)[0]
     print(prediction)
     return {dics["label"]: round(dics["score"], 2) for dics in prediction}
@@ -111,10 +103,10 @@ def download_subtitles(text):
     return " ".join(sentences)
 
 
-def analyze_file(file):
+def infer_subtiltes_from_file(file):
     df = pd.read_csv(file.name, header=None, names=["text"], encoding="utf-8")
     df["subtitles"] = df["text"].apply(download_subtitles)
-    df[labels] = df["subtitles"].apply(analyze_test_hf).apply(pd.Series)
+    df[labels] = df["subtitles"].apply(infer_subtitle).apply(pd.Series)
     return df
 
 
@@ -151,7 +143,7 @@ def create_webapp():
         get_subs_button.click(
             download_subtitles, inputs=[video_input], outputs=[txt_input]
         )
-        txt_button.click(analyze_test_hf, inputs=[txt_input], outputs=labels_confidence)
+        txt_button.click(infer_subtitle, inputs=[txt_input], outputs=labels_confidence)
 
         with gr.Tab("Files"):
             with gr.Row():
@@ -166,7 +158,9 @@ def create_webapp():
                     )
                     export_button = gr.Button("Export")
                     csv = gr.File(interactive=False, visible=False)
-        file_button.click(analyze_file, inputs=file_input, outputs=dataframe)
+        file_button.click(
+            infer_subtiltes_from_file, inputs=file_input, outputs=dataframe
+        )
         export_button.click(export_csv, inputs=dataframe, outputs=csv)
 
     return demo
